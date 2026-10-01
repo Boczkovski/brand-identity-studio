@@ -29,7 +29,7 @@ function normalizeBrazilianPhone(value: string) {
 }
 
 export const submitPoderLead = createServerFn({ method: "POST" })
-  .inputValidator((input: unknown) => leadSchema.parse(input))
+  .validator((input: unknown) => leadSchema.parse(input))
   .handler(async ({ data }) => {
     const elapsed = Date.now() - data.startedAt;
     if (data.website || elapsed < 1200 || elapsed > 7_200_000) {
