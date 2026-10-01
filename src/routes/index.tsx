@@ -181,6 +181,7 @@ function Index() {
   );
 }
 
-function Field({ label, id, error, children }: { label: string; id: string; error?: string; children: ReactElement<{ "aria-invalid"?: boolean; "aria-describedby"?: string }> }) {
-  return <div><label htmlFor={id} className="mb-2 block text-sm font-bold">{label}</label>{cloneElement(children, { "aria-invalid": Boolean(error), "aria-describedby": error ? `${id}-error` : undefined })}{error && <p id={`${id}-error`} className="mt-2 text-sm font-bold text-destructive" role="alert">{error}</p>}</div>;
+function Field({ label, id, error, children }: { label: string; id: string; error: string | undefined; children: ReactElement<{ "aria-invalid"?: boolean; "aria-describedby"?: string }> }) {
+  const accessibility = error ? { "aria-invalid": true, "aria-describedby": `${id}-error` } : { "aria-invalid": false };
+  return <div><label htmlFor={id} className="mb-2 block text-sm font-bold">{label}</label>{cloneElement(children, accessibility)}{error && <p id={`${id}-error`} className="mt-2 text-sm font-bold text-destructive" role="alert">{error}</p>}</div>;
 }

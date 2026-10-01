@@ -45,12 +45,12 @@ export const submitPoderLead = createServerFn({ method: "POST" })
       p_email: data.email.toLowerCase(),
       p_consent_version: "poder-imersoes-2026-10-01",
       p_consent_given: data.consent,
-      p_source: data.source ?? null,
-      p_utm_source: data.utmSource ?? null,
-      p_utm_medium: data.utmMedium ?? null,
-      p_utm_campaign: data.utmCampaign ?? null,
-      p_utm_content: data.utmContent ?? null,
-      p_utm_term: data.utmTerm ?? null,
+      p_source: data.source ?? undefined,
+      p_utm_source: data.utmSource ?? undefined,
+      p_utm_medium: data.utmMedium ?? undefined,
+      p_utm_campaign: data.utmCampaign ?? undefined,
+      p_utm_content: data.utmContent ?? undefined,
+      p_utm_term: data.utmTerm ?? undefined,
     });
 
     if (error || !leadId) {
