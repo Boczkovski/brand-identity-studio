@@ -8,6 +8,13 @@
       "when": 1790873370528,
       "tag": "0000_create_poder_leads_and_notifications",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1790873759333,
+      "tag": "0001_fix_poder_phone_e164_validation",
+      "breakpoints": true
     }
   ]
 }
