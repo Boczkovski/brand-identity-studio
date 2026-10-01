@@ -37,6 +37,14 @@ export const submitPoderLead = createServerFn({ method: "POST" })
     }
 
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const campaignArgs = Object.fromEntries(Object.entries({
+      p_source: data.source,
+      p_utm_source: data.utmSource,
+      p_utm_medium: data.utmMedium,
+      p_utm_campaign: data.utmCampaign,
+      p_utm_content: data.utmContent,
+      p_utm_term: data.utmTerm,
+    }).filter((entry): entry is [string, string] => typeof entry[1] === "string"));
     const { data: leadId, error } = await supabaseAdmin.rpc("submit_poder_lead", {
       p_idempotency_key: data.idempotencyKey,
       p_name: data.name,
@@ -45,12 +53,7 @@ export const submitPoderLead = createServerFn({ method: "POST" })
       p_email: data.email.toLowerCase(),
       p_consent_version: "poder-imersoes-2026-10-01",
       p_consent_given: data.consent,
-      p_source: data.source ?? undefined,
-      p_utm_source: data.utmSource ?? undefined,
-      p_utm_medium: data.utmMedium ?? undefined,
-      p_utm_campaign: data.utmCampaign ?? undefined,
-      p_utm_content: data.utmContent ?? undefined,
-      p_utm_term: data.utmTerm ?? undefined,
+      ...campaignArgs,
     });
 
     if (error || !leadId) {
