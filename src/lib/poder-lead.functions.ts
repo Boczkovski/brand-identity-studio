@@ -57,7 +57,6 @@ export const submitPoderLead = createServerFn({ method: "POST" })
     });
 
     if (error || !leadId) {
-      console.error("PODER lead persistence failed", error);
       if (error?.message.includes("rate_limit_exceeded")) {
         throw new Error("Muitas tentativas recentes. Aguarde um pouco e tente novamente.");
       }
