@@ -96,8 +96,6 @@ function Index() {
     }
   };
 
-  const primaryHref = status === "success" ? GROUP_URL : "#inscricao";
-
   return (
     <main className="min-h-screen overflow-x-hidden bg-background text-foreground">
       <header className="border-b-2 border-foreground bg-background">
@@ -105,7 +103,7 @@ function Index() {
           <Link to="/" aria-label="PODER — página inicial" className="logo-frame">
             <img src={logo.url} alt="PODER" className="h-8 w-auto md:h-10" />
           </Link>
-          <Button asChild className="hidden sm:inline-flex"><a href={primaryHref} target={status === "success" ? "_blank" : undefined} rel="noreferrer">Quero participar gratuitamente</a></Button>
+          <Button asChild className="hidden sm:inline-flex"><a href="#inscricao">Quero participar gratuitamente</a></Button>
         </div>
       </header>
 
@@ -175,7 +173,7 @@ function Index() {
 
       <section className="border-b-2 border-foreground py-16 md:py-24"><div className="mx-auto grid max-w-[1140px] gap-10 px-5 md:px-8 lg:grid-cols-[.65fr_1.35fr]"><div><p className="text-xs font-black uppercase">Perguntas frequentes</p><h2 className="mt-3 text-4xl font-black">Antes de entrar.</h2></div><div className="border-t-2 border-foreground">{[["A participação é gratuita?", "Sim. A entrada no grupo e as imersões anunciadas nesta página são gratuitas."], ["Para quem é o grupo?", "Para advogados e advogadas que desejam aprender a usar inteligência artificial na atuação profissional."], ["O cadastro já me coloca no grupo?", "Não. Depois de enviar o formulário, clique no botão verde e conclua a entrada no WhatsApp."]].map(([q,a]) => <details key={q} className="group border-b-2 border-foreground py-5"><summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-lg font-black">{q}<ChevronDown className="shrink-0 transition-transform group-open:rotate-180" /></summary><p className="max-w-2xl pt-4 leading-7 text-muted-foreground">{a}</p></details>)}</div></div></section>
 
-      <section className="bg-ink py-16 text-offwhite md:py-20"><div className="mx-auto flex max-w-[1140px] flex-col items-start justify-between gap-8 px-5 md:px-8 lg:flex-row lg:items-end"><h2 className="max-w-3xl text-4xl font-black leading-tight md:text-5xl">Seu próximo passo com IA começa nas imersões gratuitas da PODER.</h2><Button asChild size="large"><a href={primaryHref} target={status === "success" ? "_blank" : undefined} rel="noreferrer">Quero participar gratuitamente</a></Button></div></section>
+      <section className="bg-ink py-16 text-offwhite md:py-20"><div className="mx-auto flex max-w-[1140px] flex-col items-start justify-between gap-8 px-5 md:px-8 lg:flex-row lg:items-end"><h2 className="max-w-3xl text-4xl font-black leading-tight md:text-5xl">Seu próximo passo com IA começa nas imersões gratuitas da PODER.</h2><Button asChild size="large"><a href="#inscricao">Quero participar gratuitamente</a></Button></div></section>
       <footer className="border-t-2 border-offwhite/30 bg-ink py-7 text-offwhite"><div className="mx-auto flex max-w-[1140px] flex-col gap-4 px-5 text-sm md:flex-row md:items-center md:justify-between md:px-8"><span>PODER — Imersões gratuitas sobre IA para advocacia.</span><Link to="/privacidade" className="font-bold underline">Política de Privacidade</Link></div></footer>
     </main>
   );
