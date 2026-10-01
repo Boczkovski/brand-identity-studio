@@ -99,9 +99,9 @@ function Index() {
   return (
     <main className="min-h-screen overflow-x-hidden bg-background text-foreground">
       <header className="border-b border-foreground bg-background">
-        <div className="mx-auto flex max-w-[1240px] items-center justify-between px-5 py-4 md:px-8">
+        <div className="mx-auto flex min-h-24 max-w-[1240px] items-center justify-between px-5 py-3 md:min-h-28 md:px-8">
           <Link to="/" aria-label="PODER — página inicial" className="logo-frame">
-            <img src={logo.url} alt="PODER" className="h-8 w-auto md:h-10" />
+            <img src={logo.url} alt="PODER" className="h-14 w-auto sm:h-16 md:h-20" />
           </Link>
           <Button asChild className="hidden sm:inline-flex"><a href="#inscricao">Quero participar gratuitamente</a></Button>
         </div>
