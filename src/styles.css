@@ -45,7 +45,7 @@
   summary::-webkit-details-marker { display: none; }
 }
 
-@utility logo-frame { display: inline-flex; align-items: center; background: var(--color-offwhite); padding: 0.35rem 0.5rem; }
+@utility logo-frame { display: inline-flex; align-items: center; background: var(--color-offwhite); }
 @utility highlight { background: var(--color-neon); color: var(--color-ink); padding-inline: 0.15em; }
 @utility video-stage { overflow: hidden; border: 1px solid color-mix(in oklab, var(--offwhite) 28%, transparent); background: var(--color-ink); box-shadow: var(--video-shadow); }
 @utility field-wrap { display: contents; }
