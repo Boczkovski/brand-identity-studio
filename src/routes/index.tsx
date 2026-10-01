@@ -108,14 +108,8 @@ function Index() {
       </header>
 
       <section className="border-b-2 border-foreground bg-ink text-offwhite">
-        <div className="mx-auto max-w-[1240px] px-5 pb-16 pt-6 md:px-8 md:pb-24 md:pt-10">
-          <div className="video-stage">
-            <video className="aspect-video w-full bg-ink" controls playsInline preload="metadata" poster={poster.url} aria-label="Vídeo de apresentação da PODER">
-              <source src={video.url} type="video/mp4" />Seu navegador não suporta vídeo.
-            </video>
-          </div>
-
-          <div className="mt-14 grid items-start gap-12 border-t border-offwhite/25 pt-9 lg:mt-20 lg:grid-cols-[1.25fr_.75fr] lg:gap-20 lg:pt-12">
+        <div className="mx-auto max-w-[1240px] px-5 py-14 md:px-8 md:py-24">
+          <div className="grid items-start gap-12 lg:grid-cols-[1.25fr_.75fr] lg:gap-20">
             <div className="lg:sticky lg:top-8">
               <p className="text-xs font-bold uppercase text-neon">Imersões gratuitas | IA para advogados</p>
               <h1 className="mt-6 max-w-4xl text-4xl font-black leading-[1.02] sm:text-5xl lg:text-7xl">Advogado, aprenda a usar inteligência artificial <span className="text-neon">com método.</span></h1>
@@ -157,6 +151,17 @@ function Index() {
               </form>
             )}
           </aside>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b-2 border-foreground bg-ink pb-16 text-offwhite md:pb-24">
+        <div className="mx-auto max-w-[1240px] border-t border-offwhite/25 px-5 pt-10 md:px-8 md:pt-14">
+          <p className="mb-6 text-xs font-black uppercase text-neon">Conheça as imersões</p>
+          <div className="video-stage">
+            <video className="aspect-video w-full bg-ink" controls playsInline preload="metadata" poster={poster.url} aria-label="Vídeo de apresentação da PODER">
+              <source src={video.url} type="video/mp4" />Seu navegador não suporta vídeo.
+            </video>
           </div>
         </div>
       </section>
