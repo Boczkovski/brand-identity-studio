@@ -14,13 +14,139 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      poder_leads: {
+        Row: {
+          city: string
+          consent_given: boolean
+          consent_version: string
+          created_at: string
+          email: string
+          id: string
+          idempotency_key: string
+          name: string
+          phone_e164: string
+          source: string | null
+          utm_campaign: string | null
+          utm_content: string | null
+          utm_medium: string | null
+          utm_source: string | null
+          utm_term: string | null
+        }
+        Insert: {
+          city: string
+          consent_given: boolean
+          consent_version: string
+          created_at?: string
+          email: string
+          id?: string
+          idempotency_key: string
+          name: string
+          phone_e164: string
+          source?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+        }
+        Update: {
+          city?: string
+          consent_given?: boolean
+          consent_version?: string
+          created_at?: string
+          email?: string
+          id?: string
+          idempotency_key?: string
+          name?: string
+          phone_e164?: string
+          source?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+        }
+        Relationships: []
+      }
+      poder_notification_tasks: {
+        Row: {
+          accepted_at: string | null
+          attempts: number
+          channel: string
+          created_at: string
+          delivered_at: string | null
+          destination: string
+          id: string
+          last_error: string | null
+          lead_id: string
+          next_attempt_at: string | null
+          provider_message_id: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          accepted_at?: string | null
+          attempts?: number
+          channel: string
+          created_at?: string
+          delivered_at?: string | null
+          destination: string
+          id?: string
+          last_error?: string | null
+          lead_id: string
+          next_attempt_at?: string | null
+          provider_message_id?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          accepted_at?: string | null
+          attempts?: number
+          channel?: string
+          created_at?: string
+          delivered_at?: string | null
+          destination?: string
+          id?: string
+          last_error?: string | null
+          lead_id?: string
+          next_attempt_at?: string | null
+          provider_message_id?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "poder_notification_tasks_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "poder_leads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      submit_poder_lead: {
+        Args: {
+          p_city: string
+          p_consent_given: boolean
+          p_consent_version: string
+          p_email: string
+          p_idempotency_key: string
+          p_name: string
+          p_phone_e164: string
+          p_source?: string
+          p_utm_campaign?: string
+          p_utm_content?: string
+          p_utm_medium?: string
+          p_utm_source?: string
+          p_utm_term?: string
+        }
+        Returns: string
+      }
     }
     Enums: {
       [_ in never]: never
