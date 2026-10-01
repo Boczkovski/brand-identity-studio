@@ -98,8 +98,8 @@ function Index() {
 
   return (
     <main className="min-h-screen overflow-x-hidden bg-background text-foreground">
-      <header className="border-b-2 border-foreground bg-background">
-        <div className="mx-auto flex max-w-[1140px] items-center justify-between px-5 py-4 md:px-8">
+      <header className="border-b border-foreground bg-background">
+        <div className="mx-auto flex max-w-[1240px] items-center justify-between px-5 py-4 md:px-8">
           <Link to="/" aria-label="PODER — página inicial" className="logo-frame">
             <img src={logo.url} alt="PODER" className="h-8 w-auto md:h-10" />
           </Link>
@@ -108,25 +108,26 @@ function Index() {
       </header>
 
       <section className="border-b-2 border-foreground bg-ink text-offwhite">
-        <div className="mx-auto grid max-w-[1140px] gap-10 px-5 py-12 md:px-8 lg:grid-cols-[1.1fr_.9fr] lg:gap-14 lg:py-16">
-          <div>
-            <p className="mb-6 inline-block border border-neon bg-neon px-3 py-2 text-xs font-bold uppercase text-ink">Imersões gratuitas | IA para advogados</p>
-            <h1 className="max-w-3xl text-4xl font-black leading-[1.02] sm:text-5xl lg:text-6xl">Advogado, aprenda a usar inteligência artificial <span className="text-neon">com método.</span></h1>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-offwhite/80">Entre no grupo gratuito da PODER e tenha acesso a imersões sobre IA para a advocacia. Um ponto de partida para estruturar conhecimento, organizar processos e ampliar sua atuação com tecnologia.</p>
-            <Button asChild size="large" className="mt-8 w-full sm:w-auto"><a href="#inscricao">Quero acesso às imersões gratuitas <MoveRight aria-hidden="true" /></a></Button>
-            <p className="mt-3 text-sm text-offwhite/65">Faça seu cadastro. Na próxima etapa, entre no grupo.</p>
-            <div className="mt-10">
-              <p className="mb-3 text-sm font-bold uppercase text-neon">Conheça a proposta da PODER</p>
-              <video className="aspect-video w-full border-2 border-offwhite bg-ink" controls playsInline preload="metadata" poster={poster.url} aria-label="Vídeo de apresentação da PODER">
-                <source src={video.url} type="video/mp4" />Seu navegador não suporta vídeo.
-              </video>
-            </div>
+        <div className="mx-auto max-w-[1240px] px-5 pb-16 pt-6 md:px-8 md:pb-24 md:pt-10">
+          <div className="video-stage">
+            <video className="aspect-video w-full bg-ink" controls playsInline preload="metadata" poster={poster.url} aria-label="Vídeo de apresentação da PODER">
+              <source src={video.url} type="video/mp4" />Seu navegador não suporta vídeo.
+            </video>
           </div>
 
-          <aside id="inscricao" className="scroll-mt-4 self-start border-2 border-foreground bg-background p-6 text-foreground sm:p-8">
+          <div className="mt-14 grid items-start gap-12 border-t border-offwhite/25 pt-9 lg:mt-20 lg:grid-cols-[1.25fr_.75fr] lg:gap-20 lg:pt-12">
+            <div className="lg:sticky lg:top-8">
+              <p className="text-xs font-bold uppercase text-neon">Imersões gratuitas | IA para advogados</p>
+              <h1 className="mt-6 max-w-4xl text-4xl font-black leading-[1.02] sm:text-5xl lg:text-7xl">Advogado, aprenda a usar inteligência artificial <span className="text-neon">com método.</span></h1>
+              <p className="mt-7 max-w-2xl text-lg leading-8 text-offwhite/70">Entre no grupo gratuito da PODER e tenha acesso a imersões sobre IA para a advocacia. Um ponto de partida para estruturar conhecimento, organizar processos e ampliar sua atuação com tecnologia.</p>
+              <Button asChild size="large" className="mt-8 w-full sm:w-auto"><a href="#inscricao">Quero acesso às imersões gratuitas <MoveRight aria-hidden="true" /></a></Button>
+              <p className="mt-4 text-sm text-offwhite/55">Faça seu cadastro. Na próxima etapa, entre no grupo.</p>
+            </div>
+
+          <aside id="inscricao" className="scroll-mt-6 self-start border border-offwhite/25 bg-background p-6 text-foreground sm:p-8 lg:p-9">
             {status === "success" ? (
               <div aria-live="polite">
-                <span className="mb-5 inline-flex items-center gap-2 border-2 border-foreground bg-success px-3 py-2 text-xs font-bold uppercase"><Check size={18} /> 2 de 2 — Entre no grupo</span>
+                <span className="mb-5 inline-flex items-center gap-2 border border-foreground bg-success px-3 py-2 text-xs font-bold uppercase"><Check size={18} /> 2 de 2 — Entre no grupo</span>
                 <h2 ref={successTitleRef} tabIndex={-1} className="text-3xl font-black leading-tight outline-none">Cadastro recebido. Agora, entre no grupo.</h2>
                 <p className="mt-4 leading-7 text-muted-foreground">Falta um passo para acompanhar as imersões gratuitas da PODER: toque no botão abaixo e conclua sua entrada no WhatsApp.</p>
                 <Button asChild variant="whatsapp" size="large" className="mt-7 w-full normal-case"><a href={GROUP_URL} target="_blank" rel="noreferrer" onClick={() => track("whatsapp_group_click")}><ExternalLink aria-hidden="true" /> Clique aqui e entre no nosso grupo para ter imersão gratuita</a></Button>
@@ -136,9 +137,9 @@ function Index() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} noValidate>
-                <p className="text-xs font-bold uppercase">1 de 2 — Faça seu cadastro</p>
-                <h2 className="mt-3 text-3xl font-black leading-tight">Acesse o grupo gratuito da PODER.</h2>
-                <p className="mt-3 text-muted-foreground">Preencha seus dados para continuar e receber o link de entrada.</p>
+                <p className="text-xs font-bold uppercase text-muted-foreground">1 de 2 — Faça seu cadastro</p>
+                <h2 className="mt-4 text-3xl font-black leading-tight">Acesse o grupo gratuito da PODER.</h2>
+                <p className="mt-4 leading-7 text-muted-foreground">Preencha seus dados para continuar e receber o link de entrada.</p>
                 <div className="mt-7 grid gap-5">
                   <Field label="Nome" id="name" error={errors.name}><input id="name" name="name" autoComplete="name" maxLength={120} value={values.name} onChange={(e) => update("name", e.target.value)} /></Field>
                   <Field label="Telefone (WhatsApp)" id="phone" error={errors.phone}><input id="phone" name="phone" type="tel" inputMode="tel" autoComplete="tel" maxLength={16} placeholder="(00) 00000-0000" value={values.phone} onChange={(e) => update("phone", formatPhone(e.target.value))} /></Field>
@@ -156,25 +157,26 @@ function Index() {
               </form>
             )}
           </aside>
-        </div>
-      </section>
-
-      <section className="border-b-2 border-foreground py-16 md:py-24">
-        <div className="mx-auto max-w-[1140px] px-5 md:px-8">
-          <div className="grid gap-6 lg:grid-cols-2 lg:items-end"><h2 className="text-4xl font-black leading-tight md:text-5xl">Não é só sobre usar IA. É sobre usar <span className="highlight">com método.</span></h2><p className="text-lg leading-8 text-muted-foreground">A PODER propõe uma forma estruturada de conectar conhecimento, processos e tecnologia à atuação profissional.</p></div>
-          <div className="mt-12 grid border-2 border-foreground md:grid-cols-3">
-            {[["01", "Conhecimento estruturado", "Organização e clareza como ponto de partida."], ["02", "Processos organizados", "Uma visão de método, em vez de tentativas desconectadas."], ["03", "Tecnologia na atuação profissional", "O aprendizado sobre IA conectado ao contexto da advocacia."]].map(([n,t,d]) => <article key={n} className="border-b-2 border-foreground p-6 last:border-b-0 md:border-b-0 md:border-r-2 md:last:border-r-0"><span className="text-sm font-black">{n}</span><h3 className="mt-8 text-xl font-black">{t}</h3><p className="mt-3 leading-7 text-muted-foreground">{d}</p></article>)}
           </div>
-          <p className="mt-8 border-y-2 border-foreground py-4 text-center text-sm font-black uppercase md:text-base">Persona. Objetivo. Detalhe. Estrutura. Regras.</p>
         </div>
       </section>
 
-      <section className="border-b-2 border-foreground bg-neon py-16 text-ink md:py-20"><div className="mx-auto max-w-[1140px] px-5 md:px-8"><p className="text-xs font-black uppercase">Como participar</p><div className="mt-8 grid gap-8 md:grid-cols-3">{["Preencha seus dados.", "Clique no botão de acesso ao grupo.", "Acompanhe no grupo as informações para participar das imersões."].map((text, i) => <div key={text} className="border-t-2 border-ink pt-4"><span className="text-4xl font-black">0{i+1}.</span><p className="mt-3 text-lg font-bold">{text}</p></div>)}</div></div></section>
+      <section className="border-b border-foreground py-16 md:py-28">
+        <div className="mx-auto max-w-[1240px] px-5 md:px-8">
+          <div className="grid gap-8 lg:grid-cols-[1.2fr_.8fr] lg:items-end lg:gap-20"><h2 className="max-w-3xl text-4xl font-black leading-tight md:text-6xl">Não é só sobre usar IA. É sobre usar <span className="highlight">com método.</span></h2><p className="max-w-xl text-lg leading-8 text-muted-foreground">A PODER propõe uma forma estruturada de conectar conhecimento, processos e tecnologia à atuação profissional.</p></div>
+          <div className="mt-14 grid border-y border-foreground md:grid-cols-3">
+            {[["01", "Conhecimento estruturado", "Organização e clareza como ponto de partida."], ["02", "Processos organizados", "Uma visão de método, em vez de tentativas desconectadas."], ["03", "Tecnologia na atuação profissional", "O aprendizado sobre IA conectado ao contexto da advocacia."]].map(([n,t,d]) => <article key={n} className="border-b border-foreground py-8 last:border-b-0 md:border-b-0 md:border-r md:px-8 md:first:pl-0 md:last:border-r-0 md:last:pr-0"><span className="text-sm font-black text-muted-foreground">{n}</span><h3 className="mt-12 text-xl font-black">{t}</h3><p className="mt-3 leading-7 text-muted-foreground">{d}</p></article>)}
+          </div>
+          <p className="mt-10 text-center text-sm font-black uppercase md:text-base">Persona. Objetivo. Detalhe. Estrutura. Regras.</p>
+        </div>
+      </section>
 
-      <section className="border-b-2 border-foreground py-16 md:py-24"><div className="mx-auto grid max-w-[1140px] gap-10 px-5 md:px-8 lg:grid-cols-[.65fr_1.35fr]"><div><p className="text-xs font-black uppercase">Perguntas frequentes</p><h2 className="mt-3 text-4xl font-black">Antes de entrar.</h2></div><div className="border-t-2 border-foreground">{[["A participação é gratuita?", "Sim. A entrada no grupo e as imersões anunciadas nesta página são gratuitas."], ["Para quem é o grupo?", "Para advogados e advogadas que desejam aprender a usar inteligência artificial na atuação profissional."], ["O cadastro já me coloca no grupo?", "Não. Depois de enviar o formulário, clique no botão verde e conclua a entrada no WhatsApp."]].map(([q,a]) => <details key={q} className="group border-b-2 border-foreground py-5"><summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-lg font-black">{q}<ChevronDown className="shrink-0 transition-transform group-open:rotate-180" /></summary><p className="max-w-2xl pt-4 leading-7 text-muted-foreground">{a}</p></details>)}</div></div></section>
+      <section className="border-b border-foreground bg-neon py-16 text-ink md:py-24"><div className="mx-auto max-w-[1240px] px-5 md:px-8"><p className="text-xs font-black uppercase">Como participar</p><div className="mt-10 grid gap-8 md:grid-cols-3 md:gap-0">{["Preencha seus dados.", "Clique no botão de acesso ao grupo.", "Acompanhe no grupo as informações para participar das imersões."].map((text, i) => <div key={text} className="border-t border-ink pt-5 md:px-8 md:first:pl-0 md:last:pr-0"><span className="text-4xl font-black">0{i+1}.</span><p className="mt-5 max-w-xs text-lg font-bold leading-7">{text}</p></div>)}</div></div></section>
 
-      <section className="bg-ink py-16 text-offwhite md:py-20"><div className="mx-auto flex max-w-[1140px] flex-col items-start justify-between gap-8 px-5 md:px-8 lg:flex-row lg:items-end"><h2 className="max-w-3xl text-4xl font-black leading-tight md:text-5xl">Seu próximo passo com IA começa nas imersões gratuitas da PODER.</h2><Button asChild size="large"><a href="#inscricao">Quero participar gratuitamente</a></Button></div></section>
-      <footer className="border-t-2 border-offwhite/30 bg-ink py-7 text-offwhite"><div className="mx-auto flex max-w-[1140px] flex-col gap-4 px-5 text-sm md:flex-row md:items-center md:justify-between md:px-8"><span>PODER — Imersões gratuitas sobre IA para advocacia.</span><Link to="/privacidade" className="font-bold underline">Política de Privacidade</Link></div></footer>
+      <section className="border-b border-foreground py-16 md:py-28"><div className="mx-auto grid max-w-[1240px] gap-12 px-5 md:px-8 lg:grid-cols-[.7fr_1.3fr] lg:gap-24"><div><p className="text-xs font-black uppercase text-muted-foreground">Perguntas frequentes</p><h2 className="mt-4 text-4xl font-black md:text-5xl">Antes de entrar.</h2></div><div className="border-t border-foreground">{[["A participação é gratuita?", "Sim. A entrada no grupo e as imersões anunciadas nesta página são gratuitas."], ["Para quem é o grupo?", "Para advogados e advogadas que desejam aprender a usar inteligência artificial na atuação profissional."], ["O cadastro já me coloca no grupo?", "Não. Depois de enviar o formulário, clique no botão verde e conclua a entrada no WhatsApp."]].map(([q,a]) => <details key={q} className="group border-b border-foreground py-6"><summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-lg font-black">{q}<ChevronDown className="shrink-0 transition-transform group-open:rotate-180" /></summary><p className="max-w-2xl pt-4 leading-7 text-muted-foreground">{a}</p></details>)}</div></div></section>
+
+      <section className="bg-ink py-16 text-offwhite md:py-24"><div className="mx-auto flex max-w-[1240px] flex-col items-start justify-between gap-10 px-5 md:px-8 lg:flex-row lg:items-end"><h2 className="max-w-4xl text-4xl font-black leading-tight md:text-6xl">Seu próximo passo com IA começa nas imersões gratuitas da PODER.</h2><Button asChild size="large"><a href="#inscricao">Quero participar gratuitamente</a></Button></div></section>
+      <footer className="border-t border-offwhite/25 bg-ink py-7 text-offwhite"><div className="mx-auto flex max-w-[1240px] flex-col gap-4 px-5 text-sm md:flex-row md:items-center md:justify-between md:px-8"><span>PODER — Imersões gratuitas sobre IA para advocacia.</span><Link to="/privacidade" className="font-bold underline">Política de Privacidade</Link></div></footer>
     </main>
   );
 }

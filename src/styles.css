@@ -31,6 +31,7 @@
   --border: oklch(0 0 0); --input: oklch(0 0 0); --ring: oklch(0.865 0.199 115.5);
   --ink: oklch(0 0 0); --offwhite: oklch(0.978 0.009 265); --neon: oklch(0.865 0.199 115.5);
   --success: oklch(0.77 0.148 173); --success-foreground: oklch(0 0 0);
+  --video-shadow: 0 2rem 5rem color-mix(in oklab, var(--ink) 75%, transparent);
 }
 
 @layer base {
@@ -46,6 +47,7 @@
 
 @utility logo-frame { display: inline-flex; align-items: center; background: var(--color-offwhite); padding: 0.35rem 0.5rem; }
 @utility highlight { background: var(--color-neon); color: var(--color-ink); padding-inline: 0.15em; }
+@utility video-stage { overflow: hidden; border: 1px solid color-mix(in oklab, var(--offwhite) 28%, transparent); background: var(--color-ink); box-shadow: var(--video-shadow); }
 @utility field-wrap { display: contents; }
 @utility prose-poder { display: grid; gap: 2.5rem; font-size: 1.0625rem; line-height: 1.75; & h2 { margin-bottom: .65rem; font-size: 1.5rem; font-weight: 900; line-height: 1.2; } & p { color: var(--color-muted-foreground); } & .bg-neon p { color: var(--color-ink); } }
 
