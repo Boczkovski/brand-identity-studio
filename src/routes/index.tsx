@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { Check, ChevronDown, Copy, ExternalLink, MoveRight } from "lucide-react";
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { cloneElement, type FormEvent, type ReactElement, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { submitPoderLead } from "@/lib/poder-lead.functions";
 import logo from "@/assets/poder-logo.png.asset.json";
@@ -181,9 +181,6 @@ function Index() {
   );
 }
 
-function Field({ label, id, error, children }: { label: string; id: string; error?: string; children: React.ReactElement<{ "aria-invalid"?: boolean; "aria-describedby"?: string; className?: string }> }) {
-  return <div><label htmlFor={id} className="mb-2 block text-sm font-bold">{label}</label>{/* @ts-expect-error React 19 clone typing */}{useFieldChild(children, error, id)}{error && <p id={`${id}-error`} className="mt-2 text-sm font-bold text-destructive" role="alert">{error}</p>}</div>;
-}
-function useFieldChild(child: React.ReactElement, error: string | undefined, id: string) {
-  return <div className="field-wrap">{child && <>{/* input styling inherited */}{child}</>}</div>;
+function Field({ label, id, error, children }: { label: string; id: string; error?: string; children: ReactElement<{ "aria-invalid"?: boolean; "aria-describedby"?: string }> }) {
+  return <div><label htmlFor={id} className="mb-2 block text-sm font-bold">{label}</label>{cloneElement(children, { "aria-invalid": Boolean(error), "aria-describedby": error ? `${id}-error` : undefined })}{error && <p id={`${id}-error`} className="mt-2 text-sm font-bold text-destructive" role="alert">{error}</p>}</div>;
 }
