@@ -160,8 +160,8 @@ function Index() {
         <div className="mx-auto max-w-[1240px] border-t border-offwhite/25 px-5 pt-10 md:px-8 md:pt-14">
           <p className="mb-6 text-xs font-black uppercase text-neon">Conheça as imersões</p>
           <div className="video-stage">
-            <video className="aspect-video w-full bg-ink" controls playsInline preload="metadata" poster={poster.url} aria-label="Vídeo de apresentação da PODER">
-              <source src={video.url} type="video/mp4" />Seu navegador não suporta vídeo.
+            <video className="aspect-video w-full bg-ink" controls playsInline preload="metadata" poster={poster} aria-label="Vídeo de apresentação da PODER">
+              <source src={video} type="video/mp4" />Seu navegador não suporta vídeo.
             </video>
           </div>
         </div>
