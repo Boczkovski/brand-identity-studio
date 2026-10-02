@@ -4,9 +4,10 @@ import { Check, ChevronDown, Copy, ExternalLink, MoveRight } from "lucide-react"
 import { cloneElement, type FormEvent, type ReactElement, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { submitPoderLead } from "@/lib/poder-lead.functions";
-import logo from "@/assets/poder-logo-destaque.png.asset.json";
-import poster from "@/assets/capa-imersoes.jpg.asset.json";
-import video from "@/assets/poder-imersoes.mp4.asset.json";
+
+const logo = "/assets/poder-logo.png";
+const poster = "/assets/capa-imersoes.jpg";
+const video = "/assets/poder-imersoes.mp4";
 
 const GROUP_URL = "https://chat.whatsapp.com/HDjXr1RSLbBEz7aOcgKq8x";
 
@@ -101,7 +102,7 @@ function Index() {
       <header className="border-b border-foreground bg-background">
         <div className="mx-auto flex max-w-[1240px] items-center justify-between px-5 py-4 md:px-8">
           <Link to="/" aria-label="PODER — página inicial" className="logo-frame">
-            <img src={logo.url} alt="PODER" className="h-auto w-32 sm:w-40 md:w-48" />
+            <img src={logo} alt="PODER" className="h-auto w-32 sm:w-40 md:w-48" />
           </Link>
           <Button asChild className="hidden sm:inline-flex"><a href="#inscricao">Quero participar gratuitamente</a></Button>
         </div>
