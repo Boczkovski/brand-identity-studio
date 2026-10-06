@@ -32,6 +32,6 @@ export const template = {
   component: LeadNotification,
   subject: "PODER — nova inscrição nas imersões",
   displayName: "Aviso de novo cadastro",
-  to: "podermentoriasetreinamentos@gmail.com",
+  to: "contato@podermentoriasetreinamentos.com",
   previewData: { name: "Pessoa de exemplo", phone: "+55 81 90000-0000", city: "Recife", email: "exemplo@example.com" },
 } satisfies TemplateEntry;
