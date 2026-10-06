@@ -74,5 +74,21 @@ export const submitPoderLead = createServerFn({ method: "POST" })
       throw new Error("Não foi possível concluir seu cadastro agora. Seus dados continuam preenchidos; tente novamente.");
     }
 
+    // Only notify after a validated, durable registration. Delivery failures
+    // must never turn a successful registration into a visitor-facing error.
+    try {
+      const { sendTemplateEmail } = await import("./email-templates/send-email");
+      const result = await sendTemplateEmail("lead-notification", "podermentoriasetreinamentos@gmail.com", {
+        templateData: { name: data.name, phone: normalizeBrazilianPhone(data.phone), city: data.city, email: data.email.toLowerCase() },
+        idempotencyKey: `lead-notification-${leadId}`,
+      });
+      if (!result.sent) console.warn("PODER lead notice suppressed");
+    } catch (error) {
+      const code = error && typeof error === "object" && "code" in error && typeof error.code === "string"
+        ? error.code : "send_unavailable";
+      // Never log provider error bodies or lead data.
+      console.warn("PODER lead notice not accepted", { code });
+    }
+
     return { ok: true, leadId };
   });

@@ -10,5 +10,5 @@
 <!-- LOVABLE:END -->
 
 - Public campaign leads are written only through a validated server function and stored in private, service-role-only tables because personal data must never be readable from the browser.
-- Administrative email and WhatsApp delivery use durable database tasks because visitor success must not depend on provider availability.
+- Administrative email is sent server-side through Lovable managed delivery after saving a validated lead, using a fixed recipient and event-derived idempotency; provider failures must not invalidate saved registrations. Existing notification task rows are legacy records, not an email dispatcher.
 - Production builds outside Lovable target a self-contained Nitro Node.js server so GitHub-based Web App hosts can run the project.
