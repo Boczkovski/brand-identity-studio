@@ -5,4 +5,5 @@
 - [x] Validar compilação, responsividade e fluxo
 - [x] Priorizar o cadastro na abertura e mover o vídeo para a segunda parte
 - [x] Preparar saída Node.js e ativos locais para implantação via GitHub
-- [ ] Conectar e testar notificações administrativas — bloqueado por domínio/remetente e WhatsApp Business não configurados
+- [x] Preparar domínio e aviso de cadastro por e-mail para o Gmail administrativo
+- [ ] Validar recebimento real — aguarda verificação DNS do domínio e configuração de envio no servidor externo da Hostinger
