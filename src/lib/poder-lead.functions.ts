@@ -78,7 +78,7 @@ export const submitPoderLead = createServerFn({ method: "POST" })
     // must never turn a successful registration into a visitor-facing error.
     try {
       const { sendTemplateEmail } = await import("./email-templates/send-email");
-      const result = await sendTemplateEmail("lead-notification", "podermentoriasetreinamentos@gmail.com", {
+      const result = await sendTemplateEmail("lead-notification", "contato@podermentoriasetreinamentos.com", {
         templateData: { name: data.name, phone: normalizeBrazilianPhone(data.phone), city: data.city, email: data.email.toLowerCase() },
         idempotencyKey: `lead-notification-${leadId}`,
       });

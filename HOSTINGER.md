@@ -38,6 +38,6 @@ Depois que a primeira implantação estiver saudável, conecte o domínio à Web
 
 ## Avisos de cadastro por e-mail
 
-O cadastro atual funciona com as configurações públicas acima; não exige exportar uma credencial privada do banco. Os avisos usam o domínio `notify.podermentoriasetreinamentos.com` e têm destinatário fixo `podermentoriasetreinamentos@gmail.com`.
+O cadastro atual funciona com as configurações públicas acima; não exige exportar uma credencial privada do banco. Os avisos usam o domínio `notify.podermentoriasetreinamentos.com` e têm destinatário fixo `contato@podermentoriasetreinamentos.com`. Essa caixa de entrada deve existir e estar habilitada para receber mensagens no provedor de e-mail; configurar o domínio de envio no Lovable não cria a caixa postal.
 
 O domínio precisa concluir a verificação em Cloud → Emails. A credencial gerenciada para envio é disponibilizada automaticamente no ambiente Lovable, mas não é transferida ao servidor da Hostinger pela sincronização do GitHub. Por isso, a entrega de avisos no servidor externo ainda depende de uma solução de autorização compatível; não coloque credenciais no repositório nem em variáveis `VITE_`. O cadastro continua sendo salvo caso o envio não esteja disponível. Nenhuma entrega na Hostinger foi validada ainda.
