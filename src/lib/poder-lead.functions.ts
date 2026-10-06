@@ -77,6 +77,7 @@ export const submitPoderLead = createServerFn({ method: "POST" })
     // Only notify after a validated, durable registration. Delivery failures
     // must never turn a successful registration into a visitor-facing error.
     try {
+      console.info("PODER SMTP attempt");
       const { sendLeadNotice } = await import("./lead-smtp.server");
       await sendLeadNotice({
         host: process.env["SMTP_HOST"] || "",
@@ -87,9 +88,22 @@ export const submitPoderLead = createServerFn({ method: "POST" })
         name: data.name, phone: normalizeBrazilianPhone(data.phone),
         city: data.city, email: data.email.toLowerCase(), leadId: String(leadId),
       });
-    } catch {
-      // Do not log SMTP responses, credentials or personal data.
-      console.warn("PODER lead saved; SMTP notice unavailable");
+      console.info("PODER SMTP accepted");
+    } catch (error: unknown) {
+      // Allow only diagnostic tokens, never provider messages or addresses.
+      const diagnostic: { code?: string; command?: string; responseCode?: number } = {};
+      if (error !== null && typeof error === "object") {
+        if ("code" in error && typeof error.code === "string" && /^[A-Z][A-Z0-9_]{0,39}$/.test(error.code)) {
+          diagnostic.code = error.code;
+        }
+        if ("command" in error && typeof error.command === "string" && /^(?:CONN|CONNECT|EHLO|HELO|STARTTLS|AUTH(?: (?:PLAIN|LOGIN|XOAUTH2|CRAM-MD5))?|MAIL FROM|RCPT TO|DATA|QUIT|RSET|NOOP)$/.test(error.command)) {
+          diagnostic.command = error.command;
+        }
+        if ("responseCode" in error && typeof error.responseCode === "number" && Number.isInteger(error.responseCode) && error.responseCode >= 100 && error.responseCode <= 599) {
+          diagnostic.responseCode = error.responseCode;
+        }
+      }
+      console.warn("PODER SMTP failed", diagnostic);
     }
 
     return { ok: true, leadId };
