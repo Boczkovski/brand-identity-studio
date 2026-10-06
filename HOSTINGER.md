@@ -20,7 +20,6 @@ Cadastre estas variáveis nas configurações da Web App:
 
 - `SUPABASE_URL`
 - `SUPABASE_PUBLISHABLE_KEY`
-- `SUPABASE_SERVICE_ROLE_KEY`
 - `VITE_SUPABASE_URL`
 - `VITE_SUPABASE_PUBLISHABLE_KEY`
 

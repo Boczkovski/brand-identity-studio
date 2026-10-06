@@ -15,6 +15,13 @@
       "when": 1790873759333,
       "tag": "0001_fix_poder_phone_e164_validation",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1791294313755,
+      "tag": "0002_allow_public_lead_submission_rpc",
+      "breakpoints": true
     }
   ]
 }
