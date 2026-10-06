@@ -77,17 +77,19 @@ export const submitPoderLead = createServerFn({ method: "POST" })
     // Only notify after a validated, durable registration. Delivery failures
     // must never turn a successful registration into a visitor-facing error.
     try {
-      const { sendTemplateEmail } = await import("./email-templates/send-email");
-      const result = await sendTemplateEmail("lead-notification", "contato@podermentoriasetreinamentos.com", {
-        templateData: { name: data.name, phone: normalizeBrazilianPhone(data.phone), city: data.city, email: data.email.toLowerCase() },
-        idempotencyKey: `lead-notification-${leadId}`,
+      const { sendLeadNotice } = await import("./lead-smtp.server");
+      await sendLeadNotice({
+        host: process.env["SMTP_HOST"] || "",
+        port: process.env["SMTP_PORT"] || "",
+        user: process.env["SMTP_USER"] || "",
+        pass: process.env["SMTP_PASS"] || "",
+      }, {
+        name: data.name, phone: normalizeBrazilianPhone(data.phone),
+        city: data.city, email: data.email.toLowerCase(), leadId: String(leadId),
       });
-      if (!result.sent) console.warn("PODER lead notice suppressed");
-    } catch (error) {
-      const code = error && typeof error === "object" && "code" in error && typeof error.code === "string"
-        ? error.code : "send_unavailable";
-      // Never log provider error bodies or lead data.
-      console.warn("PODER lead notice not accepted", { code });
+    } catch {
+      // Do not log SMTP responses, credentials or personal data.
+      console.warn("PODER lead saved; SMTP notice unavailable");
     }
 
     return { ok: true, leadId };
