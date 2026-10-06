@@ -1,0 +1,2 @@
+REVOKE ALL ON FUNCTION public.submit_poder_lead(uuid, text, text, text, text, text, boolean, text, text, text, text, text, text) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION public.submit_poder_lead(uuid, text, text, text, text, text, boolean, text, text, text, text, text, text) TO anon, authenticated, service_role;

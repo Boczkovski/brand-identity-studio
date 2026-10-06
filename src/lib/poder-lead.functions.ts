@@ -36,7 +36,18 @@ export const submitPoderLead = createServerFn({ method: "POST" })
       throw new Error("Não foi possível validar o envio. Atualize a página e tente novamente.");
     }
 
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { createClient } = await import("@supabase/supabase-js");
+    const url = process.env["SUPABASE_URL"] || process.env["VITE_SUPABASE_URL"] || "https://qlozxajxbnbijxedmzem.supabase.co";
+    const key = process.env["SUPABASE_PUBLISHABLE_KEY"] || process.env["VITE_SUPABASE_PUBLISHABLE_KEY"] || "sb_publishable_sl8uEaafCWx7YfR1Xx6B7A_jQOqMqND";
+    const supabaseAdmin = createClient(url, key, {
+      auth: { persistSession: false, autoRefreshToken: false },
+      global: { fetch: (input, init) => {
+        const h = new Headers(init?.headers);
+        if (key.startsWith("sb_") && h.get("Authorization") === `Bearer ${key}`) h.delete("Authorization");
+        h.set("apikey", key);
+        return fetch(input, { ...init, headers: h });
+      } },
+    });
     const campaignArgs = Object.fromEntries(Object.entries({
       p_source: data.source,
       p_utm_source: data.utmSource,
