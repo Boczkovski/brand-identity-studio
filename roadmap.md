@@ -8,4 +8,5 @@
 - [x] Preparar domínio e aviso de cadastro por e-mail para o Gmail administrativo
 - [x] Integrar SMTP Hostinger com TLS na porta 465, preservar cadastros e validar TLS/autenticação sem envio de produção
 - [x] Adicionar diagnóstico SMTP seguro sem alterar o cadastro e validar compilação
-- [ ] Validar recebimento real — aguarda publicação e disponibilidade dos secrets no servidor da Hostinger
+- [ ] Substituir SMTP TCP por aviso HTTPS e validar os testes e a compilação
+- [ ] Validar recebimento real — aguarda credencial HTTPS e atualização da publicação

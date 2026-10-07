@@ -10,5 +10,5 @@
 <!-- LOVABLE:END -->
 
 - Public campaign leads are written only through a validated server function and stored in private, service-role-only tables because personal data must never be readable from the browser.
-- Administrative lead email uses a server-only SMTP transport after durable registration, with implicit TLS, a fixed recipient, bounded timeouts and event-derived Message-ID; SMTP failures never invalidate registrations. SMTP has no provider idempotency guarantee, so Message-ID does not prevent duplicate delivery. Legacy notification task rows are not an email dispatcher.
+- Administrative lead email uses a server-only HTTPS API after durable registration, with a fixed recipient, bounded timeout and event-derived provider idempotency key; failures never invalidate registrations. Only allowlisted error codes and HTTP status are logged, never provider bodies or personal data. Legacy notification task rows are not an email dispatcher.
 - Production builds outside Lovable target a self-contained Nitro Node.js server so GitHub-based Web App hosts can run the project.
