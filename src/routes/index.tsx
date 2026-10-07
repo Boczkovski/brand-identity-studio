@@ -88,6 +88,26 @@ function Index() {
         utmSource: params.get("utm_source"), utmMedium: params.get("utm_medium"),
         utmCampaign: params.get("utm_campaign"), utmContent: params.get("utm_content"), utmTerm: params.get("utm_term"),
       }});
+
+      try {
+        const emailResponse = await fetch("https://podermentoriasetreinamentos.com/api/send-lead.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: values.name,
+            phone: values.phone,
+            city: values.city,
+            email: values.email,
+            website: values.website,
+          }),
+        });
+        if (!emailResponse.ok) {
+          console.warn("PODER notification email failed", { status: emailResponse.status });
+        }
+      } catch {
+        console.warn("PODER notification email failed");
+      }
+
       sessionStorage.setItem("poder_lead_confirmed", "true");
       setStatus("success");
       track("lead_saved");
