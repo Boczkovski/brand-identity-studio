@@ -7,25 +7,25 @@ export interface LeadNotice {
 }
 
 export interface EmailConfig {
-  apiKey: string;
-  from: string;
+  token: string;
 }
 
 export const LEAD_RECIPIENT = "contato@podermentoriasetreinamentos.com";
+const API_BASE = "https://api.mail.hostinger.com/api/v1";
+type EmailStage = "configuration" | "mailbox" | "send";
+type EmailCode = "EMAIL_TOKEN_MISSING" | "EMAIL_CONNECTION_FAILED" | "EMAIL_API_REJECTED" | "EMAIL_INVALID_RESULT" | "EMAIL_MAILBOX_NOT_FOUND";
 
 export class LeadEmailError extends Error {
-  constructor(public readonly code: string, public readonly status?: number) {
+  constructor(public readonly code: EmailCode, public readonly stage: EmailStage, public readonly status?: number) {
     super(code);
     this.name = "LeadEmailError";
   }
 }
 
-export function leadEmailPayload(from: string, lead: LeadNotice) {
-  if (!/^[a-f0-9-]{36}$/i.test(lead.leadId)) throw new LeadEmailError("INVALID_LEAD_ID");
-  if (!/^[^\s<>@]+@[^\s<>@]+\.[^\s<>@]+$/.test(from)) throw new LeadEmailError("EMAIL_SENDER_INVALID");
+export function leadEmailPayload(lead: LeadNotice) {
   return {
-    from: `PODER <${from}>`,
     to: [LEAD_RECIPIENT],
+    displayName: "PODER",
     subject: "PODER — nova inscrição nas imersões",
     text: ["Uma nova inscrição foi confirmada nas imersões PODER.", "",
       `Nome: ${lead.name}`, `Telefone: ${lead.phone}`, `Cidade: ${lead.city}`, `E-mail: ${lead.email}`,
@@ -33,33 +33,56 @@ export function leadEmailPayload(from: string, lead: LeadNotice) {
   };
 }
 
-// No TCP, Node-only transport, client credentials, or provider error bodies.
-export async function sendLeadNotice(config: EmailConfig, lead: LeadNotice) {
-  if (!config.apiKey.trim()) throw new LeadEmailError("EMAIL_API_KEY_MISSING");
-  const payload = leadEmailPayload(config.from, lead);
+async function discardBody(response: Response) {
+  try { await response.body?.cancel(); } catch { /* Never expose stream errors. */ }
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return value !== null && typeof value === "object" && !Array.isArray(value);
+}
+
+// Only standard HTTPS fetch; no provider bodies, credentials or lead data in diagnostics.
+async function request(stage: EmailStage, url: string, init: RequestInit) {
   let response: Response;
   try {
-    response = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${config.apiKey}`,
-        "Content-Type": "application/json",
-        "Idempotency-Key": `poder-lead-${lead.leadId}`,
-      },
-      body: JSON.stringify(payload),
-      signal: AbortSignal.timeout(10_000),
-    });
+    response = await fetch(url, { ...init, redirect: "error" });
   } catch {
-    throw new LeadEmailError("EMAIL_CONNECTION_FAILED");
+    throw new LeadEmailError("EMAIL_CONNECTION_FAILED", stage);
   }
+  console.info("PODER email HTTP", { stage, status: response.status });
   if (!response.ok) {
-    await response.body?.cancel();
-    throw new LeadEmailError("EMAIL_API_REJECTED", response.status);
+    await discardBody(response);
+    throw new LeadEmailError("EMAIL_API_REJECTED", stage, response.status);
   }
-  // Acceptance is not confirmation of inbox delivery.
-  let result: unknown;
-  try { result = await response.json(); } catch { throw new LeadEmailError("EMAIL_INVALID_RESULT"); }
-  if (!result || typeof result !== "object" || !("id" in result) || typeof result.id !== "string" || !result.id) {
-    throw new LeadEmailError("EMAIL_INVALID_RESULT");
+  return response;
+}
+
+export async function sendLeadNotice(config: EmailConfig, lead: LeadNotice) {
+  const token = config.token.trim();
+  if (!token) throw new LeadEmailError("EMAIL_TOKEN_MISSING", "configuration");
+  const headers = { Authorization: `Bearer ${token}`, Accept: "application/json" };
+  // One bounded budget for both calls; never retry an ambiguous send automatically.
+  const signal = AbortSignal.timeout(10_000);
+  const account = await request("mailbox", `${API_BASE}/me`, { method: "GET", headers, signal });
+  let accountData: unknown;
+  try { accountData = await account.json(); } catch {
+    throw new LeadEmailError("EMAIL_INVALID_RESULT", "mailbox", account.status);
+  }
+  if (!isRecord(accountData) || !isRecord(accountData.data) || !Array.isArray(accountData.data.mailboxes)) {
+    throw new LeadEmailError("EMAIL_INVALID_RESULT", "mailbox", account.status);
+  }
+  const mailbox = accountData.data.mailboxes.find((value: unknown) => isRecord(value) && value.address === LEAD_RECIPIENT);
+  if (!isRecord(mailbox)) throw new LeadEmailError("EMAIL_MAILBOX_NOT_FOUND", "mailbox", account.status);
+  // The official /me schema names this resourceId (the send path calls it mailboxResourceId).
+  if (typeof mailbox.resourceId !== "string" || !/^AC[A-Za-z0-9]+$/.test(mailbox.resourceId)) {
+    throw new LeadEmailError("EMAIL_INVALID_RESULT", "mailbox", account.status);
+  }
+  const sent = await request("send", `${API_BASE}/mailboxes/${encodeURIComponent(mailbox.resourceId)}/send`, {
+    method: "POST", headers: { ...headers, "Content-Type": "application/json" },
+    body: JSON.stringify(leadEmailPayload(lead)), signal,
+  });
+  await discardBody(sent);
+  if (sent.status !== 204) {
+    throw new LeadEmailError("EMAIL_INVALID_RESULT", "send", sent.status);
   }
 }

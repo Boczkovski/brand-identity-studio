@@ -80,8 +80,7 @@ export const submitPoderLead = createServerFn({ method: "POST" })
       console.info("PODER email attempt");
       const { sendLeadNotice } = await import("./lead-email.server");
       await sendLeadNotice({
-        apiKey: process.env["RESEND_API_KEY"] || "",
-        from: process.env["RESEND_FROM_EMAIL"] || "onboarding@resend.dev",
+        token: process.env["HOSTINGER_MAIL_API_TOKEN"] || "",
       }, {
         name: data.name, phone: normalizeBrazilianPhone(data.phone),
         city: data.city, email: data.email.toLowerCase(), leadId: String(leadId),
@@ -89,9 +88,12 @@ export const submitPoderLead = createServerFn({ method: "POST" })
       console.info("PODER email accepted");
     } catch (error: unknown) {
       // Allow only diagnostic tokens, never provider messages or addresses.
-      const diagnostic: { code?: string; status?: number } = {};
+      const diagnostic: { stage?: string; code?: string; status?: number } = {};
       if (error !== null && typeof error === "object") {
-        if ("code" in error && typeof error.code === "string" && /^[A-Z][A-Z0-9_]{0,39}$/.test(error.code)) {
+        if ("stage" in error && typeof error.stage === "string" && ["configuration", "mailbox", "send"].includes(error.stage)) {
+          diagnostic.stage = error.stage;
+        }
+        if ("code" in error && typeof error.code === "string" && ["EMAIL_TOKEN_MISSING", "EMAIL_CONNECTION_FAILED", "EMAIL_API_REJECTED", "EMAIL_INVALID_RESULT", "EMAIL_MAILBOX_NOT_FOUND"].includes(error.code)) {
           diagnostic.code = error.code;
         }
         if ("status" in error && typeof error.status === "number" && Number.isInteger(error.status) && error.status >= 100 && error.status <= 599) {
