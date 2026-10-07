@@ -90,7 +90,7 @@ function Index() {
       }});
 
       try {
-        const emailResponse = await fetch("https://podermentoriasetreinamentos.com/api/send-lead.php", {
+        const emailResponse = await fetch("https://api.podermentoriasetreinamentos.com/send-lead.php", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
