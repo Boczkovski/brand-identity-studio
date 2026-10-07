@@ -74,34 +74,5 @@ export const submitPoderLead = createServerFn({ method: "POST" })
       throw new Error("Não foi possível concluir seu cadastro agora. Seus dados continuam preenchidos; tente novamente.");
     }
 
-    // Only notify after a validated, durable registration. Delivery failures
-    // must never turn a successful registration into a visitor-facing error.
-    try {
-      console.info("PODER email attempt");
-      const { sendLeadNotice } = await import("./lead-email.server");
-      await sendLeadNotice({
-        token: process.env["HOSTINGER_MAIL_API_TOKEN"] || "",
-      }, {
-        name: data.name, phone: normalizeBrazilianPhone(data.phone),
-        city: data.city, email: data.email.toLowerCase(), leadId: String(leadId),
-      });
-      console.info("PODER email accepted");
-    } catch (error: unknown) {
-      // Allow only diagnostic tokens, never provider messages or addresses.
-      const diagnostic: { stage?: string; code?: string; status?: number } = {};
-      if (error !== null && typeof error === "object") {
-        if ("stage" in error && typeof error.stage === "string" && ["configuration", "mailbox", "send"].includes(error.stage)) {
-          diagnostic.stage = error.stage;
-        }
-        if ("code" in error && typeof error.code === "string" && ["EMAIL_TOKEN_MISSING", "EMAIL_CONNECTION_FAILED", "EMAIL_API_REJECTED", "EMAIL_INVALID_RESULT", "EMAIL_MAILBOX_NOT_FOUND"].includes(error.code)) {
-          diagnostic.code = error.code;
-        }
-        if ("status" in error && typeof error.status === "number" && Number.isInteger(error.status) && error.status >= 100 && error.status <= 599) {
-          diagnostic.status = error.status;
-        }
-      }
-      console.warn("PODER email failed", diagnostic);
-    }
-
     return { ok: true, leadId };
   });
