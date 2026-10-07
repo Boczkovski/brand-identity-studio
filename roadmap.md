@@ -5,8 +5,6 @@
 - [x] Validar compilação, responsividade e fluxo
 - [x] Priorizar o cadastro na abertura e mover o vídeo para a segunda parte
 - [x] Preparar saída Node.js e ativos locais para implantação via GitHub
-- [x] Preparar domínio e aviso de cadastro por e-mail para o Gmail administrativo
-- [x] Integrar SMTP Hostinger com TLS na porta 465, preservar cadastros e validar TLS/autenticação sem envio de produção
-- [x] Adicionar diagnóstico SMTP seguro sem alterar o cadastro e validar compilação
 - [x] Substituir SMTP TCP por aviso HTTPS e validar os testes e a compilação
-- [ ] Validar recebimento real — aguarda credencial HTTPS e atualização da publicação
+- [ ] Migrar aviso para Hostinger Mail REST API, remover integração anterior e validar testes e compilação
+- [ ] Validar recebimento real — aguarda HOSTINGER_MAIL_API_TOKEN e autorização de publicação
