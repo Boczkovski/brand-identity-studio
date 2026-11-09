@@ -1,6 +1,6 @@
 // Meta Pixel for the PODER landing page. One pixel, three events:
 // PageView (site visit), Lead (registration saved), Contact (WhatsApp group click).
-export const META_PIXEL_ID = "";
+export const META_PIXEL_ID = "1679884870159342";
 
 type Fbq = ((...args: unknown[]) => void) & {
   callMethod?: (...args: unknown[]) => void;
