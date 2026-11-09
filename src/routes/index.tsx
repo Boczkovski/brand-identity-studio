@@ -4,6 +4,7 @@ import { Check, ChevronDown, Copy, ExternalLink, MoveRight } from "lucide-react"
 import { cloneElement, type FormEvent, type ReactElement, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { submitPoderLead } from "@/lib/poder-lead.functions";
+import { trackPixel } from "@/lib/meta-pixel";
 
 const logo = "/assets/poder-logo.png";
 const poster = "/assets/capa-imersoes.jpg";
@@ -111,6 +112,7 @@ function Index() {
       sessionStorage.setItem("poder_lead_confirmed", "true");
       setStatus("success");
       track("lead_saved");
+      void trackPixel("Lead");
     } catch (error) {
       setStatus("error");
       setMessage(error instanceof Error ? error.message : "Não foi possível concluir seu cadastro agora. Seus dados continuam preenchidos; tente novamente.");
@@ -145,7 +147,7 @@ function Index() {
                 <span className="mb-5 inline-flex items-center gap-2 border border-foreground bg-success px-3 py-2 text-xs font-bold uppercase"><Check size={18} /> 2 de 2 — Entre no grupo</span>
                 <h2 ref={successTitleRef} tabIndex={-1} className="text-3xl font-black leading-tight outline-none">Cadastro recebido. Agora, entre no grupo.</h2>
                 <p className="mt-4 leading-7 text-muted-foreground">Falta um passo para acompanhar as imersões gratuitas da PODER: toque no botão abaixo e conclua sua entrada no WhatsApp.</p>
-                <Button asChild variant="whatsapp" size="large" className="mt-7 w-full normal-case"><a href={GROUP_URL} target="_blank" rel="noreferrer" onClick={() => track("whatsapp_group_click")}><ExternalLink aria-hidden="true" /> Clique aqui e entre no nosso grupo para ter imersão gratuita</a></Button>
+                <Button asChild variant="whatsapp" size="large" className="mt-7 w-full normal-case"><a href={GROUP_URL} target="_blank" rel="noreferrer" onClick={() => { track("whatsapp_group_click"); void trackPixel("Contact"); }}><ExternalLink aria-hidden="true" /> Clique aqui e entre no nosso grupo para ter imersão gratuita</a></Button>
                 <Button variant="outline" className="mt-3 w-full normal-case" onClick={async () => { await navigator.clipboard.writeText(GROUP_URL); setMessage("Link copiado."); }}><Copy size={18} /> Copiar link do grupo</Button>
                 {message && <p className="mt-3 text-center text-sm font-bold" role="status">{message}</p>}
                 <p className="mt-5 border-t border-border pt-5 text-sm text-muted-foreground">Seu cadastro foi recebido. A entrada no grupo só é concluída após você abrir o link e confirmar no WhatsApp.</p>
